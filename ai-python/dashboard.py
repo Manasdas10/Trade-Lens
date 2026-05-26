@@ -2,40 +2,89 @@ import streamlit as st
 import yfinance as yf
 import plotly.graph_objects as go
 
-st.set_page_config(layout="wide")
+# PAGE
+st.set_page_config(
+    page_title="TradeLens Live Signals",
+    layout="wide"
+)
 
 st.title("TradeLens Live Signals")
 
-# FETCH DATA
-data = yf.download("^NSEI", period="5d", interval="5m")
+# FETCH LIVE DATA
+data = yf.download(
+    "^NSEI",
+    period="1d",
+    interval="5m"
+)
 
-# CHECK EMPTY
+# CHECK DATA
 if data.empty:
-    st.error("Market data unavailable right now.")
+    st.error("No market data found")
     st.stop()
 
-# CLOSE PRICES
+# FIX MULTI COLUMN ISSUE
 close_prices = data["Close"]
 
-# FIX MULTI-DIMENSION ISSUE
 if hasattr(close_prices, "columns"):
     close_prices = close_prices.iloc[:, 0]
 
 close_prices = close_prices.dropna()
 
-# EMPTY CHECK
-if len(close_prices) == 0:
-    st.error("No live market data available.")
-    st.stop()
+# EMA
+ema9 = close_prices.ewm(span=9).mean()
+ema21 = close_prices.ewm(span=21).mean()
 
-# LATEST PRICE
-latest_close = close_prices.iloc[-1]
+# CREATE CHART
+fig = go.Figure()
 
-# AVERAGE PRICE
-avg_price = close_prices.mean()
+# PRICE
+fig.add_trace(
+    go.Scatter(
+        x=data.index,
+        y=close_prices,
+        mode="lines",
+        name="NIFTY",
+    )
+)
+
+# EMA 9
+fig.add_trace(
+    go.Scatter(
+        x=data.index,
+        y=ema9,
+        mode="lines",
+        name="EMA 9",
+    )
+)
+
+# EMA 21
+fig.add_trace(
+    go.Scatter(
+        x=data.index,
+        y=ema21,
+        mode="lines",
+        name="EMA 21",
+    )
+)
+
+# CHART DESIGN
+fig.update_layout(
+    height=500,
+    template="plotly_dark",
+    xaxis_rangeslider_visible=False,
+    margin=dict(l=20, r=20, t=40, b=20)
+)
+
+# SHOW CHART
+st.plotly_chart(
+    fig,
+    width="stretch"
+)
 
 # SIGNAL
-if latest_close > avg_price:
+latest_close = float(close_prices.iloc[-1])
+
+if ema9.iloc[-1] > ema21.iloc[-1]:
     st.success("BUY SIGNAL")
 else:
     st.error("SELL SIGNAL")
@@ -43,5 +92,5 @@ else:
 # METRIC
 st.metric(
     label="Latest Price",
-    value=round(float(latest_close), 2)
+    value=round(latest_close, 2)
 )
