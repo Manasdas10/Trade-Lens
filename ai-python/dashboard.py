@@ -15,8 +15,11 @@ if data.empty:
     st.stop()
 
 # CLOSE PRICES
-close_prices = data["Close"]
+close_prices = data["Close"].dropna()
 
+if len(close_prices) == 0:
+    st.error("No live market data available.")
+    st.stop()
 # CHART
 fig = go.Figure()
 
@@ -32,8 +35,7 @@ fig.add_trace(
 st.plotly_chart(fig, width='stretch')
 
 # LATEST PRICE
-latest_close = float(close_prices.iloc[-1])
-
+latest_close = float(close_prices.values[-1])
 # SIGNAL
 if latest_close > float(close_prices.mean()):
     st.success("BUY SIGNAL")
