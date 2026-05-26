@@ -9,12 +9,13 @@ st.title("TradeLens Live Signals")
 # FETCH DATA
 data = yf.download("^NSEI", period="5d", interval="5m")
 
-# FIX MULTI-INDEX COLUMNS
-if isinstance(data.columns, tuple) or hasattr(data.columns, "levels"):
-    data.columns = data.columns.get_level_values(0)
+# CHECK EMPTY
+if data.empty:
+    st.error("Market data unavailable right now.")
+    st.stop()
 
 # CLOSE PRICES
-close_prices = data['Close']
+close_prices = data["Close"]
 
 # CHART
 fig = go.Figure()
@@ -28,17 +29,18 @@ fig.add_trace(
     )
 )
 
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width='stretch')
 
 # LATEST PRICE
 latest_close = float(close_prices.iloc[-1])
 
-# SIMPLE AI SIGNAL
+# SIGNAL
 if latest_close > float(close_prices.mean()):
     st.success("BUY SIGNAL")
 else:
     st.error("SELL SIGNAL")
 
+# METRIC
 st.metric(
     label="Latest Price",
     value=round(latest_close, 2)
