@@ -1,5 +1,7 @@
+streamlit
+plotly
 pandas
+yfinance
 numpy
 scikit-learn
-statsmodel
-matplotlib
+statsmodels
