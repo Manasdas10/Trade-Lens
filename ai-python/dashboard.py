@@ -15,29 +15,27 @@ if data.empty:
     st.stop()
 
 # CLOSE PRICES
-close_prices = data["Close"].dropna()
+close_prices = data["Close"]
 
+# FIX MULTI-DIMENSION ISSUE
+if hasattr(close_prices, "columns"):
+    close_prices = close_prices.iloc[:, 0]
+
+close_prices = close_prices.dropna()
+
+# EMPTY CHECK
 if len(close_prices) == 0:
     st.error("No live market data available.")
     st.stop()
-# CHART
-fig = go.Figure()
-
-fig.add_trace(
-    go.Scatter(
-        x=data.index,
-        y=close_prices,
-        mode='lines',
-        name='NIFTY'
-    )
-)
-
-st.plotly_chart(fig, width='stretch')
 
 # LATEST PRICE
-latest_close = float(close_prices.values[-1])
+latest_close = close_prices.iloc[-1]
+
+# AVERAGE PRICE
+avg_price = close_prices.mean()
+
 # SIGNAL
-if latest_close > float(close_prices.mean()):
+if latest_close > avg_price:
     st.success("BUY SIGNAL")
 else:
     st.error("SELL SIGNAL")
@@ -45,5 +43,5 @@ else:
 # METRIC
 st.metric(
     label="Latest Price",
-    value=round(latest_close, 2)
+    value=round(float(latest_close), 2)
 )
