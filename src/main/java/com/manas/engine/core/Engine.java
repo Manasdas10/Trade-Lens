@@ -2,75 +2,67 @@ package com.manas.engine.core;
 
 import java.util.List;
 
-import com.manas.engine.ai.PredictionResult;
-import com.manas.engine.ai.PriceForecaster;
-import com.manas.engine.backtest.BacktestEngine;
-import com.manas.engine.data.CSVLoader;
 import com.manas.engine.model.Candle;
-import com.manas.engine.strategy.EMACrossoverStrategy;
+import com.manas.engine.strategy.Signal;
 import com.manas.engine.strategy.Strategy;
 
 public class Engine {
 
-    public static void main(String[] args) {
+    private final Strategy strategy;
+
+    public Engine(Strategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public void run(List<Candle> candles) {
 
         System.out.println("=================================");
-        System.out.println("       MARKET ENGINE STARTED");
+        System.out.println("RUNNING STRATEGY BACKTEST");
         System.out.println("=================================");
 
-        try {
+        int buyCount = 0;
+        int sellCount = 0;
+        int holdCount = 0;
 
-            // Load historical data
-            List<Candle> candles = CSVLoader.load("src/main/resources/nifty.csv");
+        for (int i = 120; i < candles.size(); i++) {
 
-            System.out.println("Candles Loaded: " + candles.size());
+            List<Candle> subCandles =
+                    candles.subList(0, i + 1);
 
-            if (candles.isEmpty()) {
-                System.out.println("ERROR: No candle data found.");
-                return;
+            Signal signal =
+                    strategy.generateSignal(subCandles);
+
+            Candle current =
+                    candles.get(i);
+
+           System.out.println(
+                "Index: "
+                + i
+                + " -> "
+                + signal
+                + " | Close: "
+                + current.getClose()
+            );
+
+            switch (signal) {
+                case BUY:
+                    buyCount++;
+                    break;
+
+                case SELL:
+                    sellCount++;
+                    break;
+
+                default:
+                    holdCount++;
             }
-
-            // -----------------------------
-            // AI FORECAST MODULE
-            // -----------------------------
-
-            PriceForecaster ai = new PriceForecaster();
-
-            PredictionResult prediction = ai.forecast(candles);
-
-            System.out.println("\n===== AI FORECAST =====");
-            System.out.println("Predicted Price: " + prediction.getPredictedPrice());
-            System.out.println("Confidence: " + prediction.getConfidence());
-            System.out.println("=======================\n");
-
-            // -----------------------------
-            // STRATEGY SELECTION
-            // -----------------------------
-
-            Strategy strategy = new EMACrossoverStrategy();
-
-            System.out.println("Strategy Selected: " + strategy.getClass().getSimpleName());
-
-            // -----------------------------
-            // BACKTEST
-            // -----------------------------
-
-            BacktestEngine engine = new BacktestEngine(strategy);
-
-            System.out.println("\nStarting Backtest...\n");
-
-            engine.run(candles);
-
-            System.out.println("\nBacktest Completed Successfully.");
-
-        } catch (Exception e) {
-
-            System.out.println("ENGINE ERROR: " + e.getMessage());
-            e.printStackTrace();
         }
 
         System.out.println("=================================");
-        System.out.println("       MARKET ENGINE FINISHED");
+        System.out.println("BACKTEST COMPLETE");
+        System.out.println("BUY SIGNALS : " + buyCount);
+        System.out.println("SELL SIGNALS: " + sellCount);
+        System.out.println("HOLD SIGNALS: " + holdCount);
         System.out.println("=================================");
     }
 }

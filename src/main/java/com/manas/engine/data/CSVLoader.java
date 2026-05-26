@@ -32,9 +32,17 @@ public class CSVLoader {
                 double high = Double.parseDouble(data[2]);
                 double low = Double.parseDouble(data[3]);
                 double close = Double.parseDouble(data[4]);
-                double volume = Double.parseDouble(data[5]);
 
-                Candle candle = new Candle(time, open, high, low, close, volume);
+                long volume = (long) Double.parseDouble(data[5]);
+
+                Candle candle = new Candle(
+                        time,
+                        open,
+                        high,
+                        low,
+                        close,
+                        volume
+                );
 
                 candles.add(candle);
             }

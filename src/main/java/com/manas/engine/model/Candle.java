@@ -7,9 +7,9 @@ public class Candle {
     private double high;
     private double low;
     private double close;
-    private double volume;
+    private long volume;
 
-    public Candle(String time, double open, double high, double low, double close, double volume) {
+    public Candle(String time, double open, double high, double low, double close, long volume) {
         this.time = time;
         this.open = open;
         this.high = high;
@@ -38,7 +38,7 @@ public class Candle {
         return close;
     }
 
-    public double getVolume() {
+    public long getVolume() {
         return volume;
     }
 }

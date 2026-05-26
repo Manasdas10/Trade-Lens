@@ -1,3 +1,4 @@
+C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\ai\AIPredictor.java
 C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\ai\PredictionResult.java
 C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\ai\PriceFeatureBuilder.java
 C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\ai\PriceForecaster.java
@@ -10,6 +11,7 @@ C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\en
 C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\data\CandleAggregator.java
 C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\data\CSVLoader.java
 C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\data\MarketDataFeed.java
+C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\data\YahooDataFetcher.java
 C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\execution\ExecutionEngine.java
 C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\execution\Portfolio.java
 C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\execution\Trade.java
@@ -17,8 +19,10 @@ C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\en
 C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\indicators\EMAIndicator.java
 C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\indicators\Indicator.java
 C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\indicators\RSIIndicator.java
+C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\indicators\SMAIndicator.java
 C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\indicators\VolumeSpikeIndicator.java
 C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\indicators\VWAPIndicator.java
+C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\Main.java
 C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\model\Candle.java
 C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\model\Order.java
 C:\Users\Omni\Documents\TradingProjects\market-engine\src\main\java\com\manas\engine\model\Position.java

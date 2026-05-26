@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.manas.engine.indicators.EMAIndicator;
 import com.manas.engine.indicators.RSIIndicator;
+import com.manas.engine.indicators.SMAIndicator;
 import com.manas.engine.model.Candle;
 import com.manas.engine.priceaction.ImpulseCandleDetector;
 import com.manas.engine.smc.BreakOfStructureDetector;
@@ -15,6 +16,7 @@ public class EMACrossoverStrategy implements Strategy {
     private final EMAIndicator slowEma = new EMAIndicator(15);
     private final EMAIndicator trendEma = new EMAIndicator(50);
     private final RSIIndicator rsi = new RSIIndicator(14);
+    private final SMAIndicator sma = new SMAIndicator(20);
 
     private final MarketStructure structure = new MarketStructure();
     private final BreakOfStructureDetector bos = new BreakOfStructureDetector();
@@ -23,7 +25,7 @@ public class EMACrossoverStrategy implements Strategy {
     @Override
     public Signal generateSignal(List<Candle> candles) {
 
-        if (candles.size() < 120) {
+        if (candles.size() < 30) {
             return Signal.HOLD;
         }
 
@@ -31,6 +33,7 @@ public class EMACrossoverStrategy implements Strategy {
         double currSlow = slowEma.calculate(candles);
         double trendValue = trendEma.calculate(candles);
         double currentRsi = rsi.calculate(candles);
+        double smaValue = sma.calculate(candles);
 
         Candle lastCandle = candles.get(candles.size() - 1);
         double lastClose = lastCandle.getClose();
@@ -46,24 +49,26 @@ public class EMACrossoverStrategy implements Strategy {
         boolean bullishImpulse = impulse.isBullishImpulse(candles);
         boolean bearishImpulse = impulse.isBearishImpulse(candles);
 
-        // ===== BUY SETUP =====
+        // ===== BUY =====
         if (trend == MarketStructure.Trend.BULLISH &&
             bullishMomentum &&
             bullishBOS &&
             bullishImpulse &&
             lastClose > trendValue &&
+            lastClose > smaValue &&
             currentRsi > 50) {
 
             return Signal.BUY;
         }
 
-        // ===== SELL SETUP =====
+        // ===== SELL =====
         if (trend == MarketStructure.Trend.BEARISH &&
             bearishMomentum &&
             bearishBOS &&
             bearishImpulse &&
             lastClose < trendValue &&
-            currentRsi < 50) {
+            lastClose < smaValue &&
+            currentRsi < 45) {
 
             return Signal.SELL;
         }
