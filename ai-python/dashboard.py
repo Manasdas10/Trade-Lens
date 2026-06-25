@@ -505,13 +505,13 @@ with chart_col:
         gridcolor=plotly_grid_color,
         zerolinecolor=plotly_grid_color,
         tickfont=dict(color=text_color),
-        titlefont=dict(color=text_color)
+        title_font=dict(color=text_color)
     )
     fig.update_yaxes(
         gridcolor=plotly_grid_color,
         zerolinecolor=plotly_grid_color,
         tickfont=dict(color=text_color),
-        titlefont=dict(color=text_color)
+        title_font=dict(color=text_color)
     )
     st.plotly_chart(fig, use_container_width=True)
 
