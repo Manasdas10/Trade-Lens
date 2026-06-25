@@ -526,7 +526,14 @@ with chart_col:
         tickfont=dict(color=text_color),
         title_font=dict(color=text_color)
     )
-    st.plotly_chart(fig, use_container_width=True)
+    # Enable native scroll zoom, responsive scaling, and custom drawing tools for technical analysis
+    chart_config = {
+        'scrollZoom': True,
+        'displayModeBar': True,
+        'modeBarButtonsToAdd': ['drawline', 'drawrect', 'eraseshape'],
+        'responsive': True
+    }
+    st.plotly_chart(fig, use_container_width=True, theme=None, config=chart_config)
 
 with forecast_col:
     st.subheader("🎯 Active Trade Setup")
@@ -598,7 +605,7 @@ with forecast_col:
             }
         ))
         fig_g.update_layout(height=200, margin=dict(l=10, r=10, t=10, b=10), template=plotly_template, paper_bgcolor=bg_color)
-        st.plotly_chart(fig_g, use_container_width=True)
+        st.plotly_chart(fig_g, use_container_width=True, theme=None)
     else:
         st.info("Models not trained yet. Showing fallback EMA indicators.")
         st.write("Train ARIMA & LSTM model in training pipeline to get ensemble model forecasts with confidence levels.")
