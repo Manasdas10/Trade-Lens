@@ -21,7 +21,7 @@ TradeLens combines Java backend performance with Python AI capabilities to creat
 
 ## Realtime Dashboard
 
-https://tradelens-live-signals.streamlit.app
+https://trade-lens-yhjrfh2lecepvhcvdgcqmg.streamlit.app/
 
 ---
 
