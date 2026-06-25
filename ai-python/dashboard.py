@@ -229,15 +229,21 @@ if st.sidebar.button("Train AI on Live Data"):
             try:
                 import subprocess
                 py_path = sys.executable
+                script_dir = os.path.dirname(os.path.abspath(__file__))
+                train_script_path = os.path.join(script_dir, "train_model.py")
+                
                 # Run the training script in a subprocess
                 result = subprocess.run(
-                    [py_path, "train_model.py", "--symbol", train_symbol.strip()],
+                    [py_path, train_script_path, "--symbol", train_symbol.strip()],
                     capture_output=True,
                     text=True,
                     check=True
                 )
                 st.sidebar.success(f"AI trained successfully on {train_symbol}!")
                 st.rerun()
+            except subprocess.CalledProcessError as e:
+                st.sidebar.error(f"Training failed (exit code {e.returncode}):")
+                st.sidebar.code(e.stderr or e.stdout)
             except Exception as e:
                 st.sidebar.error(f"Training failed: {e}")
 
