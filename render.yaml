@@ -4,8 +4,7 @@ services:
     env: docker
     dockerfilePath: Dockerfile
     plan: free
-    # Render exposes this port (running Streamlit) to the public web
-    port: 8501
+    # Render exposes the port specified by the PORT environment variable below
     envVars:
       - key: PORT
         value: 8501
