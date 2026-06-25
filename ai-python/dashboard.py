@@ -40,15 +40,16 @@ st.markdown("""
 <style>
     /* Main body background color */
     .stApp {
-        background-color: #0e1117;
-        color: #e0e0e0;
+        background-color: #000000;
+        color: #ffffff;
+        font-family: 'Inter', sans-serif;
     }
     
     /* Title text styling */
     h1 {
         font-family: 'Outfit', 'Inter', sans-serif;
         font-weight: 800;
-        background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+        background: linear-gradient(90deg, #ffffff, #666666);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-bottom: 20px;
@@ -58,25 +59,29 @@ st.markdown("""
     div[data-testid="stMetricValue"] {
         font-size: 28px !important;
         font-weight: bold;
-        color: #3b82f6;
+        color: #ffffff;
     }
     
     div[data-testid="metric-container"] {
-        background-color: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        background-color: #111111;
+        border: 1px solid #333333;
         padding: 15px;
         border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
     }
     
     /* Styling sidebar */
-    .css-1d391kg {
-        background-color: #161b22;
+    [data-testid="stSidebar"] {
+        background-color: #111111 !important;
+        border-right: 1px solid #222222;
     }
     
     /* Info/Alert boxes design */
     .stAlert {
         border-radius: 10px;
+        background-color: #111111;
+        border: 1px solid #333333;
+        color: #ffffff;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -239,29 +244,30 @@ if mtf_grid:
         with mtf_cols[idx]:
             # Highlight active timeframe
             is_active = (tf == timeframe_label)
-            active_border = "border: 2px solid #3b82f6;" if is_active else "border: 1px solid rgba(255,255,255,0.05);"
-            bg_color = "background-color: rgba(59, 130, 246, 0.08);" if is_active else "background-color: rgba(255,255,255,0.02);"
+            active_border = "border: 2px solid #ffffff;" if is_active else "border: 1px solid #222222;"
+            bg_color = "background-color: #1a1a1a;" if is_active else "background-color: #0c0c0c;"
             
-            # Trend badge styling
-            trend_color = "#10b981" if data["trend"] == "BUY" else "#ef4444" if data["trend"] == "SELL" else "#9ca3af"
+            # Trend badge styling (Monochrome)
+            trend_color = "#ffffff" if data["trend"] == "BUY" else "#444444" if data["trend"] == "SELL" else "#222222"
+            trend_text_color = "#000000" if data["trend"] == "BUY" else "#ffffff"
             
             st.markdown(f"""
-            <div style="{active_border} {bg_color} padding: 15px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.15); margin-bottom: 20px;">
+            <div style="{active_border} {bg_color} padding: 15px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.4); margin-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="font-weight: 800; font-size: 15px; color: {'#3b82f6' if is_active else '#e0e0e0'}">{tf} {'★' if is_active else ''}</span>
-                    <span style="background-color: {trend_color}; color: #ffffff; padding: 2px 8px; border-radius: 6px; font-weight: bold; font-size: 11px;">{data['trend']}</span>
+                    <span style="font-weight: 800; font-size: 15px; color: {'#ffffff' if is_active else '#888888'}">{tf} {'★' if is_active else ''}</span>
+                    <span style="background-color: {trend_color}; color: {trend_text_color}; padding: 2px 8px; border-radius: 6px; font-weight: bold; font-size: 11px;">{data['trend']}</span>
                 </div>
                 <div style="font-size: 20px; font-weight: bold; color: #ffffff; margin-bottom: 12px;">{data['price']:,.2f}</div>
-                <div style="font-size: 11px; margin-bottom: 2px; color: #888;">🟩 <b>Buy Entry:</b></div>
-                <div style="font-size: 13px; font-family: monospace; color: #e0e0e0; margin-bottom: 6px; font-weight: bold;">{data['buy_zone_min']:,.2f} - {data['buy_zone_max']:,.2f}</div>
-                <div style="font-size: 11px; margin-bottom: 2px; color: #888;">🟥 <b>Short Entry:</b></div>
-                <div style="font-size: 13px; font-family: monospace; color: #e0e0e0; margin-bottom: 6px; font-weight: bold;">{data['sell_zone_min']:,.2f} - {data['sell_zone_max']:,.2f}</div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 11px; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px;">
-                    <div>🛡️ <span style="color: #ef4444; font-weight: bold;">SL:</span><br/><span style="font-family: monospace; font-size: 11px;">{data['stop_loss']:,.2f}</span></div>
-                    <div>🎯 <span style="color: #10b981; font-weight: bold;">T1:</span><br/><span style="font-family: monospace; font-size: 11px;">{data['target_1']:,.2f}</span></div>
+                <div style="font-size: 11px; margin-bottom: 2px; color: #888;">[+] <b>Buy Entry:</b></div>
+                <div style="font-size: 13px; font-family: monospace; color: #ffffff; margin-bottom: 6px; font-weight: bold;">{data['buy_zone_min']:,.2f} - {data['buy_zone_max']:,.2f}</div>
+                <div style="font-size: 11px; margin-bottom: 2px; color: #888;">[-] <b>Short Entry:</b></div>
+                <div style="font-size: 13px; font-family: monospace; color: #888888; margin-bottom: 6px; font-weight: bold;">{data['sell_zone_min']:,.2f} - {data['sell_zone_max']:,.2f}</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 11px; margin-top: 8px; border-top: 1px solid #222222; padding-top: 8px;">
+                    <div>🛡️ <span style="color: #ffffff; font-weight: bold;">SL:</span><br/><span style="font-family: monospace; font-size: 11px; color: #888888;">{data['stop_loss']:,.2f}</span></div>
+                    <div>🎯 <span style="color: #ffffff; font-weight: bold;">T1:</span><br/><span style="font-family: monospace; font-size: 11px; color: #ffffff;">{data['target_1']:,.2f}</span></div>
                 </div>
-                <div style="font-size: 11px; margin-top: 4px;">🎯 <span style="color: #10b981; font-weight: bold;">T2:</span> <span style="font-family: monospace; font-size: 11px; font-weight: bold;">{data['target_2']:,.2f}</span></div>
-                <div style="font-size: 11px; color: #aaa; margin-top: 6px; text-align: right;">R/R: {data['rr_ratio']:.1f}x</div>
+                <div style="font-size: 11px; margin-top: 4px;">🎯 <span style="color: #ffffff; font-weight: bold;">T2:</span> <span style="font-family: monospace; font-size: 11px; font-weight: bold; color: #ffffff;">{data['target_2']:,.2f}</span></div>
+                <div style="font-size: 11px; color: #888; margin-top: 6px; text-align: right;">R/R: {data['rr_ratio']:.1f}x</div>
             </div>
             """, unsafe_allow_html=True)
 else:
@@ -285,54 +291,58 @@ with chart_col:
     if chart_type == "Candlestick":
         fig.add_trace(go.Candlestick(
             x=df.index, open=df["open"], high=df["high"], low=df["low"], close=df["close"],
-            name="OHLC Price"
+            name="OHLC Price",
+            increasing_line_color='#ffffff', increasing_fillcolor='#ffffff',
+            decreasing_line_color='#444444', decreasing_fillcolor='#444444'
         ))
     else:
         fig.add_trace(go.Scatter(
-            x=df.index, y=df["close"], mode="lines", name="Price", line=dict(color="#2196F3", width=1.5)
+            x=df.index, y=df["close"], mode="lines", name="Price", line=dict(color="#ffffff", width=1.5)
         ))
 
     # Overlays
     if "EMA 9" in overlay_options and "ema_9" in featured.columns:
-        fig.add_trace(go.Scatter(x=df.index, y=featured["ema_9"], mode="lines", name="EMA 9", line=dict(color="#FF9800", width=1.2)))
+        fig.add_trace(go.Scatter(x=df.index, y=featured["ema_9"], mode="lines", name="EMA 9", line=dict(color="#ffffff", width=1.2)))
     if "EMA 21" in overlay_options and "ema_21" in featured.columns:
-        fig.add_trace(go.Scatter(x=df.index, y=featured["ema_21"], mode="lines", name="EMA 21", line=dict(color="#E91E63", width=1.2)))
+        fig.add_trace(go.Scatter(x=df.index, y=featured["ema_21"], mode="lines", name="EMA 21", line=dict(color="#888888", width=1.2, dash="dash")))
     if "SMA 50" in overlay_options and "sma_50" in featured.columns:
-        fig.add_trace(go.Scatter(x=df.index, y=featured["sma_50"], mode="lines", name="SMA 50", line=dict(color="#4CAF50", width=1.2)))
+        fig.add_trace(go.Scatter(x=df.index, y=featured["sma_50"], mode="lines", name="SMA 50", line=dict(color="#cccccc", width=1.2)))
     if "SMA 200" in overlay_options and "sma_200" in featured.columns:
-        fig.add_trace(go.Scatter(x=df.index, y=featured["sma_200"], mode="lines", name="SMA 200", line=dict(color="#9C27B0", width=1.5)))
+        fig.add_trace(go.Scatter(x=df.index, y=featured["sma_200"], mode="lines", name="SMA 200", line=dict(color="#444444", width=1.5)))
 
     if "Bollinger Bands" in overlay_options and "bb_upper" in featured.columns:
-        fig.add_trace(go.Scatter(x=df.index, y=featured["bb_upper"], line=dict(color="rgba(173,216,230,0.4)", width=0.8), name="BB Upper"))
-        fig.add_trace(go.Scatter(x=df.index, y=featured["bb_lower"], line=dict(color="rgba(173,216,230,0.4)", width=0.8), fill="tonexty", fillcolor="rgba(173,216,230,0.05)", name="BB Lower"))
+        fig.add_trace(go.Scatter(x=df.index, y=featured["bb_upper"], line=dict(color="rgba(255,255,255,0.2)", width=0.8), name="BB Upper"))
+        fig.add_trace(go.Scatter(x=df.index, y=featured["bb_lower"], line=dict(color="rgba(255,255,255,0.2)", width=0.8), fill="tonexty", fillcolor="rgba(255,255,255,0.03)", name="BB Lower"))
 
     if "Ichimoku Cloud" in overlay_options and "ichi_senkou_a" in featured.columns:
-        fig.add_trace(go.Scatter(x=df.index, y=featured["ichi_senkou_a"], line=dict(color="rgba(76,175,80,0.3)", width=0.8), name="Senkou A"))
-        fig.add_trace(go.Scatter(x=df.index, y=featured["ichi_senkou_b"], line=dict(color="rgba(244,67,54,0.3)", width=0.8), fill="tonexty", fillcolor="rgba(128,128,128,0.05)", name="Senkou B"))
+        fig.add_trace(go.Scatter(x=df.index, y=featured["ichi_senkou_a"], line=dict(color="rgba(255,255,255,0.15)", width=0.8), name="Senkou A"))
+        fig.add_trace(go.Scatter(x=df.index, y=featured["ichi_senkou_b"], line=dict(color="rgba(255,255,255,0.15)", width=0.8), fill="tonexty", fillcolor="rgba(255,255,255,0.02)", name="Senkou B"))
 
     if "Camarilla Pivots" in overlay_options:
         cam = levels.get("camarilla", {})
         if cam:
-            fig.add_hline(y=cam["R4"], line_dash="dash", line_color="#ef4444", annotation_text="Cam R4 (Breakout)", annotation_position="top left")
-            fig.add_hline(y=cam["R3"], line_dash="dot", line_color="#f87171", annotation_text="Cam R3 (Short Zone)", annotation_position="top left")
-            fig.add_hline(y=cam["S3"], line_dash="dot", line_color="#34d399", annotation_text="Cam S3 (Buy Zone)", annotation_position="bottom left")
-            fig.add_hline(y=cam["S4"], line_dash="dash", line_color="#10b981", annotation_text="Cam S4 (Breakdown)", annotation_position="bottom left")
+            fig.add_hline(y=cam["R4"], line_dash="dash", line_color="#888888", annotation_text="Cam R4 (Breakout)", annotation_position="top left")
+            fig.add_hline(y=cam["R3"], line_dash="dot", line_color="#cccccc", annotation_text="Cam R3 (Short Zone)", annotation_position="top left")
+            fig.add_hline(y=cam["S3"], line_dash="dot", line_color="#ffffff", annotation_text="Cam S3 (Buy Zone)", annotation_position="bottom left")
+            fig.add_hline(y=cam["S4"], line_dash="dash", line_color="#444444", annotation_text="Cam S4 (Breakdown)", annotation_position="bottom left")
 
     if "Fibonacci Pivots" in overlay_options:
         fib = levels.get("fibonacci", {})
         if fib:
-            fig.add_hline(y=fib["R3"], line_dash="dash", line_color="#b91c1c", annotation_text="Fib R3 (Target 2)", annotation_position="top right")
-            fig.add_hline(y=fib["R2"], line_dash="dot", line_color="#ef4444", annotation_text="Fib R2 (Target 1)", annotation_position="top right")
-            fig.add_hline(y=fib["P"], line_color="#9ca3af", annotation_text="Fib Pivot P", annotation_position="top right")
-            fig.add_hline(y=fib["S2"], line_dash="dot", line_color="#10b981", annotation_text="Fib S2 (Support)", annotation_position="bottom right")
-            fig.add_hline(y=fib["S3"], line_dash="dash", line_color="#047857", annotation_text="Fib S3 (Deep Support)", annotation_position="bottom right")
+            fig.add_hline(y=fib["R3"], line_dash="dash", line_color="#444444", annotation_text="Fib R3", annotation_position="top right")
+            fig.add_hline(y=fib["R2"], line_dash="dot", line_color="#888888", annotation_text="Fib R2", annotation_position="top right")
+            fig.add_hline(y=fib["P"], line_color="#ffffff", annotation_text="Fib Pivot P", annotation_position="top right")
+            fig.add_hline(y=fib["S2"], line_dash="dot", line_color="#888888", annotation_text="Fib S2", annotation_position="bottom right")
+            fig.add_hline(y=fib["S3"], line_dash="dash", line_color="#444444", annotation_text="Fib S3", annotation_position="bottom right")
 
     fig.update_layout(
         height=550,
         template="plotly_dark",
         xaxis_rangeslider_visible=False,
         margin=dict(l=10, r=10, t=10, b=10),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+        paper_bgcolor='#000000',
+        plot_bgcolor='#000000'
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -344,35 +354,35 @@ with forecast_col:
     
     if setup_action == "BUY":
         st.markdown(f"""
-        <div style="background-color: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
-            <h4 style="color: #10b981; margin: 0 0 10px 0;">🟢 BUY / LONG SETUP</h4>
-            <div style="font-size: 13px; margin-bottom: 6px;"><b>Buy Zone:</b> <span style="font-family: monospace; font-weight: bold;">{active_setup['buy_zone'][0]:,.2f} - {active_setup['buy_zone'][1]:,.2f}</span></div>
-            <div style="font-size: 13px; margin-bottom: 6px;"><b>Stop Loss:</b> <span style="font-family: monospace; color: #ef4444; font-weight: bold;">{active_setup['stop_loss']:,.2f}</span></div>
-            <div style="font-size: 13px; margin-bottom: 6px;"><b>Target 1:</b> <span style="font-family: monospace; color: #10b981; font-weight: bold;">{active_setup['target_1']:,.2f}</span></div>
-            <div style="font-size: 13px; margin-bottom: 6px;"><b>Target 2:</b> <span style="font-family: monospace; color: #10b981; font-weight: bold;">{active_setup['target_2']:,.2f}</span></div>
-            <div style="font-size: 12px; margin-top: 10px; color: #aaa; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px;">
+        <div style="background-color: #111111; border: 2px solid #ffffff; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+            <h4 style="color: #ffffff; margin: 0 0 10px 0;">[+] BUY / LONG SETUP</h4>
+            <div style="font-size: 13px; margin-bottom: 6px; color: #888;"><b>Buy Zone:</b> <span style="font-family: monospace; font-weight: bold; color: #ffffff;">{active_setup['buy_zone'][0]:,.2f} - {active_setup['buy_zone'][1]:,.2f}</span></div>
+            <div style="font-size: 13px; margin-bottom: 6px; color: #888;"><b>Stop Loss:</b> <span style="font-family: monospace; color: #888888; font-weight: bold;">{active_setup['stop_loss']:,.2f}</span></div>
+            <div style="font-size: 13px; margin-bottom: 6px; color: #888;"><b>Target 1:</b> <span style="font-family: monospace; color: #ffffff; font-weight: bold;">{active_setup['target_1']:,.2f}</span></div>
+            <div style="font-size: 13px; margin-bottom: 6px; color: #888;"><b>Target 2:</b> <span style="font-family: monospace; color: #ffffff; font-weight: bold;">{active_setup['target_2']:,.2f}</span></div>
+            <div style="font-size: 12px; margin-top: 10px; color: #888; border-top: 1px solid #222222; padding-top: 6px;">
                 R/R Ratio: <b>{active_setup['risk_reward_ratio']:.2f}x</b>
             </div>
         </div>
         """, unsafe_allow_html=True)
     elif setup_action == "SELL":
         st.markdown(f"""
-        <div style="background-color: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
-            <h4 style="color: #ef4444; margin: 0 0 10px 0;">🔴 SHORT / SELL SETUP</h4>
-            <div style="font-size: 13px; margin-bottom: 6px;"><b>Short Zone:</b> <span style="font-family: monospace; font-weight: bold;">{active_setup['sell_zone'][0]:,.2f} - {active_setup['sell_zone'][1]:,.2f}</span></div>
-            <div style="font-size: 13px; margin-bottom: 6px;"><b>Stop Loss:</b> <span style="font-family: monospace; color: #ef4444; font-weight: bold;">{active_setup['stop_loss']:,.2f}</span></div>
-            <div style="font-size: 13px; margin-bottom: 6px;"><b>Target 1:</b> <span style="font-family: monospace; color: #10b981; font-weight: bold;">{active_setup['target_1']:,.2f}</span></div>
-            <div style="font-size: 13px; margin-bottom: 6px;"><b>Target 2:</b> <span style="font-family: monospace; color: #10b981; font-weight: bold;">{active_setup['target_2']:,.2f}</span></div>
-            <div style="font-size: 12px; margin-top: 10px; color: #aaa; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px;">
+        <div style="background-color: #0c0c0c; border: 2px dotted #888888; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+            <h4 style="color: #888888; margin: 0 0 10px 0;">[-] SHORT / SELL SETUP</h4>
+            <div style="font-size: 13px; margin-bottom: 6px; color: #888;"><b>Short Zone:</b> <span style="font-family: monospace; font-weight: bold; color: #ffffff;">{active_setup['sell_zone'][0]:,.2f} - {active_setup['sell_zone'][1]:,.2f}</span></div>
+            <div style="font-size: 13px; margin-bottom: 6px; color: #888;"><b>Stop Loss:</b> <span style="font-family: monospace; color: #888888; font-weight: bold;">{active_setup['stop_loss']:,.2f}</span></div>
+            <div style="font-size: 13px; margin-bottom: 6px; color: #888;"><b>Target 1:</b> <span style="font-family: monospace; color: #ffffff; font-weight: bold;">{active_setup['target_1']:,.2f}</span></div>
+            <div style="font-size: 13px; margin-bottom: 6px; color: #888;"><b>Target 2:</b> <span style="font-family: monospace; color: #ffffff; font-weight: bold;">{active_setup['target_2']:,.2f}</span></div>
+            <div style="font-size: 12px; margin-top: 10px; color: #888; border-top: 1px solid #222222; padding-top: 6px;">
                 R/R Ratio: <b>{active_setup['risk_reward_ratio']:.2f}x</b>
             </div>
         </div>
         """, unsafe_allow_html=True)
     else:
         st.markdown(f"""
-        <div style="background-color: rgba(156, 163, 175, 0.1); border: 1px solid #9ca3af; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
-            <h4 style="color: #9ca3af; margin: 0 0 10px 0;">🟡 RANGEBOUND SETUP</h4>
-            <div style="font-size: 12px; line-height: 1.4;">{active_setup['rationale']}</div>
+        <div style="background-color: #111111; border: 1px solid #333333; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+            <h4 style="color: #888888; margin: 0 0 10px 0;">[=] RANGEBOUND SETUP</h4>
+            <div style="font-size: 12px; line-height: 1.4; color: #ffffff;">{active_setup['rationale']}</div>
         </div>
         """, unsafe_allow_html=True)
         
@@ -395,20 +405,20 @@ with forecast_col:
             title={'text': "Return Forecast %", 'font': {'size': 13}},
             gauge={
                 'axis': {'range': [-1, 1], 'tickwidth': 1},
-                'bar': {'color': "#3b82f6"},
+                'bar': {'color': "#ffffff"},
                 'steps': [
-                    {'range': [-1, -0.2], 'color': "rgba(244,67,54,0.3)"},
-                    {'range': [-0.2, 0.2], 'color': "rgba(128,128,128,0.2)"},
-                    {'range': [0.2, 1.0], 'color': "rgba(76,175,80,0.3)"}
+                    {'range': [-1, -0.2], 'color': "rgba(255,255,255,0.05)"},
+                    {'range': [-0.2, 0.2], 'color': "rgba(255,255,255,0.15)"},
+                    {'range': [0.2, 1.0], 'color': "rgba(255,255,255,0.25)"}
                 ],
                 'threshold': {
-                    'line': {'color': "red", 'width': 3},
+                    'line': {'color': "#ffffff", 'width': 3},
                     'thickness': 0.75,
                     'value': sig_val * 100
                 }
             }
         ))
-        fig_g.update_layout(height=200, margin=dict(l=10, r=10, t=10, b=10), template="plotly_dark")
+        fig_g.update_layout(height=200, margin=dict(l=10, r=10, t=10, b=10), template="plotly_dark", paper_bgcolor='#000000')
         st.plotly_chart(fig_g, use_container_width=True)
     else:
         st.info("Models not trained yet. Showing fallback EMA indicators.")
