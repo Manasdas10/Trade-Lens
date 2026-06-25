@@ -222,21 +222,24 @@ st.sidebar.write("Train the Artificial Intelligence models directly on any asset
 
 train_symbol = st.sidebar.text_input("Train Symbol Ticker", value=symbol, help="Enter the ticker symbol you want to train models on.")
 if st.sidebar.button("Train AI on Live Data"):
-    with st.spinner(f"Training AI on {train_symbol}... This downloads live data, builds technical indicators, and fits ARIMA + LSTM models. Takes ~1 minute."):
-        try:
-            import subprocess
-            py_path = sys.executable
-            # Run the training script in a subprocess
-            result = subprocess.run(
-                [py_path, "train_model.py", "--symbol", train_symbol],
-                capture_output=True,
-                text=True,
-                check=True
-            )
-            st.sidebar.success(f"AI trained successfully on {train_symbol}!")
-            st.rerun()
-        except Exception as e:
-            st.sidebar.error(f"Training failed: {e}")
+    if not train_symbol or not train_symbol.strip():
+        st.sidebar.error("⚠️ Please specify a symbol ticker in 'Train Symbol Ticker' before training.")
+    else:
+        with st.spinner(f"Training AI on {train_symbol}... This downloads live data, builds technical indicators, and fits ARIMA + LSTM models. Takes ~1 minute."):
+            try:
+                import subprocess
+                py_path = sys.executable
+                # Run the training script in a subprocess
+                result = subprocess.run(
+                    [py_path, "train_model.py", "--symbol", train_symbol.strip()],
+                    capture_output=True,
+                    text=True,
+                    check=True
+                )
+                st.sidebar.success(f"AI trained successfully on {train_symbol}!")
+                st.rerun()
+            except Exception as e:
+                st.sidebar.error(f"Training failed: {e}")
 
 st.sidebar.markdown("---")
 st.sidebar.subheader("🎯 Model Training Status")
@@ -261,18 +264,24 @@ st.markdown(f"""
 <circle cx="17" cy="10" r="4.5" stroke="{accent_color}" stroke-width="2.5" fill="none"/>
 <line x1="20" y1="13" x2="23" y2="16" stroke="{accent_color}" stroke-width="2.5" stroke-linecap="round"/>
 </svg>
-<h1 style="margin: 0; padding: 0; font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; background: {title_gradient}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: baseline; gap: 10px;">
-TradeLens 
-<span style="font-size: 18px; font-weight: 400; color: {text_muted}; -webkit-text-fill-color: {text_muted}; font-family: 'Inter', sans-serif; letter-spacing: -0.5px;">
+<div style="display: flex; align-items: baseline; flex-wrap: wrap;">
+<h1 style="margin: 0; padding: 0; font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; background: {title_gradient}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">
+TradeLens
+</h1>
+<span style="font-size: 18px; font-weight: 400; color: {text_muted}; font-family: 'Inter', sans-serif; letter-spacing: -0.5px; margin-left: 10px; display: inline-block;">
 Stock Forecasting & Analytics
 </span>
-</h1>
+</div>
 </div>
 """, unsafe_allow_html=True)
 
 # FETCH DATA FOR SELECT TIME FRAME
+if not symbol or not symbol.strip():
+    st.warning("⚠️ Please enter a valid Ticker Symbol in the configuration sidebar (e.g., ^NSEI, BTC-USD, RELIANCE.NS).")
+    st.stop()
+
 with st.spinner("Fetching market data..."):
-    df = fetch_live_data(symbol, timeframe_label)
+    df = fetch_live_data(symbol.strip(), timeframe_label)
 
 if df.empty:
     st.error(f"No market data found for {symbol} on {timeframe_label} timeframe.")
