@@ -5,3 +5,11 @@ yfinance
 numpy
 scikit-learn
 statsmodels
+torch
+pmdarima
+fastapi
+uvicorn
+matplotlib
+ta
+joblib
+scipy

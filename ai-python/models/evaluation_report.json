@@ -1,0 +1,32 @@
+{
+  "ARIMA": {
+    "model": "ARIMA",
+    "rmse": 309.0035484633193,
+    "mae": 233.67158250301932,
+    "mape": 0.9513852511086147,
+    "r_squared": 0.9039099437555892,
+    "directional_accuracy": 12.62135922330097,
+    "max_error": 1284.25,
+    "sample_count": 207
+  },
+  "LSTM": {
+    "model": "LSTM",
+    "rmse": 625.7504985067222,
+    "mae": 566.3166055484694,
+    "mape": 2.2860276914834445,
+    "r_squared": 0.6939347110479146,
+    "directional_accuracy": 50.0,
+    "max_error": 1308.71484375,
+    "sample_count": 147
+  },
+  "Ensemble": {
+    "model": "Ensemble (ARIMA+LSTM)",
+    "rmse": 450.20810252936155,
+    "mae": 383.7212452168367,
+    "mape": 1.5559248605331484,
+    "r_squared": 0.841569685622637,
+    "directional_accuracy": 47.26027397260274,
+    "max_error": 1065.658203125,
+    "sample_count": 147
+  }
+}

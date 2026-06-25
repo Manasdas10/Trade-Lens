@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: trade-lens-platform
+    env: docker
+    dockerfilePath: Dockerfile
+    plan: free
+    # Start command is defined in Dockerfile CMD, but explicitly configured here
+    startCommand: /app/start.sh
+    # Render exposes this port to the outside world
+    port: 8501
+    envVars:
+      - key: PORT
+        value: 8501
