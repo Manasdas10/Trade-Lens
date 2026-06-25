@@ -1,6 +1,6 @@
-# TradeLens — Java Quant Trading Engine (Stock Price Forcsting)
+# TradeLens -  Trading Engine (Stock Price Forcsting)
 
-TradeLens is a Java-based algorithmic trading and market analysis engine designed for realtime signal generation, quantitative research, and AI-powered market prediction.
+TradeLens is a  algorithmic trading and market analysis engine designed for realtime signal generation, quantitative research, and AI-powered market prediction.
 
 The platform integrates:
 
