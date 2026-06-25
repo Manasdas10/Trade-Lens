@@ -250,25 +250,23 @@ else:
 # MAIN TITLE WITH UNIQUE LOGO
 st.markdown(f"""
 <div style="display: flex; align-items: center; margin-bottom: 25px; border-bottom: 1px solid {card_border}; padding-bottom: 15px;">
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 15px;">
-        <!-- Candlestick 1 (Green/Bullish) -->
-        <line x1="4.5" y1="4" x2="4.5" y2="20" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
-        <rect x="2.5" y="8" width="4" height="8" rx="1" fill="#10b981"/>
-        
-        <!-- Candlestick 2 (Red/Bearish) -->
-        <line x1="10.5" y1="2" x2="10.5" y2="22" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/>
-        <rect x="8.5" y="6" width="4" height="12" rx="1" fill="#ef4444"/>
-        
-        <!-- Telescope / Lens overlay (Accent Color) -->
-        <circle cx="17" cy="10" r="4.5" stroke="{accent_color}" stroke-width="2.5" fill="none"/>
-        <line x1="20" y1="13" x2="23" y2="16" stroke="{accent_color}" stroke-width="2.5" stroke-linecap="round"/>
-    </svg>
-    <h1 style="margin: 0; padding: 0; font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; background: {title_gradient}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: baseline; gap: 10px;">
-        TradeLens 
-        <span style="font-size: 18px; font-weight: 400; color: {text_muted}; -webkit-text-fill-color: {text_muted}; font-family: 'Inter', sans-serif; letter-spacing: -0.5px;">
-            Stock Forecasting & Analytics
-        </span>
-    </h1>
+<svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 15px;">
+<!-- Candlestick 1 (Green/Bullish) -->
+<line x1="4.5" y1="4" x2="4.5" y2="20" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+<rect x="2.5" y="8" width="4" height="8" rx="1" fill="#10b981"/>
+<!-- Candlestick 2 (Red/Bearish) -->
+<line x1="10.5" y1="2" x2="10.5" y2="22" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/>
+<rect x="8.5" y="6" width="4" height="12" rx="1" fill="#ef4444"/>
+<!-- Telescope / Lens overlay (Accent Color) -->
+<circle cx="17" cy="10" r="4.5" stroke="{accent_color}" stroke-width="2.5" fill="none"/>
+<line x1="20" y1="13" x2="23" y2="16" stroke="{accent_color}" stroke-width="2.5" stroke-linecap="round"/>
+</svg>
+<h1 style="margin: 0; padding: 0; font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; background: {title_gradient}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: baseline; gap: 10px;">
+TradeLens 
+<span style="font-size: 18px; font-weight: 400; color: {text_muted}; -webkit-text-fill-color: {text_muted}; font-family: 'Inter', sans-serif; letter-spacing: -0.5px;">
+Stock Forecasting & Analytics
+</span>
+</h1>
 </div>
 """, unsafe_allow_html=True)
 
